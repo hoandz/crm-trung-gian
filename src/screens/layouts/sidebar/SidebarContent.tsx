@@ -1,4 +1,3 @@
-import { Menu } from "antd";
 import { Link } from "react-router-dom";
 import CustomScrollbars from "./CustomScrollbars";
 import SidebarLogo from "./SidebarLogo";
@@ -6,6 +5,11 @@ import { observer } from "mobx-react-lite";
 import { GLOBAL_CLIENT } from "../../../helpers/GlobalClient";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../../hooks";
+import { Layout, Menu, Breadcrumb } from 'antd';
+import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+
+const { SubMenu } = Menu;
+const { Header, Content, Sider } = Layout;
 
 const SidebarContent = observer((props: any) => {
     const { location } = props;

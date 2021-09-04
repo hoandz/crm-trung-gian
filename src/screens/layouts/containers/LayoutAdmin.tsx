@@ -29,17 +29,13 @@ const LayoutAdmin = observer((props: any) => {
                                 onClick={handleOpenSidebar}
                             />
                         </div>
-
-                        <div className="center-img-content">
-                            <img
-                                src={Images.logo_white}
-                                className="img-responsive"
-                                alt="Logo"
-                            />
-                        </div>
                     </div>
                 )}
-
+                {AuthStore.width_screen > TAB_SIZE && (
+                    <div className="gx-layout-sider-header">
+                        sdfsdfádfasdfasdfasdfasdfa
+                    </div>
+                )}
                 <Content
                     className={`gx-layout-content gx-main-content-wrapper`}
                 >

@@ -51,19 +51,7 @@ const App = observer((props) => {
 
 const AdminRoute = (props: AdminRouteProps) => {
     const { component: Component, isSignedIn, ...rest } = props;
-
-    return (
-        <Route
-            {...rest}
-            render={(routeProps) => {
-                if (isSignedIn === STATUS_LOGIN.WAIT_LOGIN) {
-                    return <Loading isLoading={true} />;
-                } else if (isSignedIn === STATUS_LOGIN.ADMIN_LOGIN) {
-                    return <Component {...routeProps} />;
-                }
-            }}
-        />
-    );
+    return <Component {...props} />;
 };
 
 export default withRouter(App);
