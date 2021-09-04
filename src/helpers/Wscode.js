@@ -1,5 +1,6 @@
 export const WsCode = {
     login: "login",
     getUserInfo: "getUserInfo",
-    uploadImg: "uploadImg"
-    };
+    uploadImg: "uploadImg",
+    user: "user"
+};

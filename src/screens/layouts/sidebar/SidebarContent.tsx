@@ -59,7 +59,6 @@ const SidebarContent = observer((props: any) => {
                         mode="inline"
                         className="menu-container"
                     >
-
                         {renderMenus()}
                     </Menu>
                 </CustomScrollbars>

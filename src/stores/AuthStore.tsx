@@ -44,7 +44,7 @@ export class AuthStore {
 
         if (result) {
             const dataAuth = {
-                accessToken: result.accessToken
+                token: result.token
             };
 
             await localStorage.setItem(
@@ -72,7 +72,20 @@ export class AuthStore {
 
         return false;
     }
-    
+
+    @action
+    async action_RegisterUser(param: any) {
+        const DOMAIN = `${CONFIG_URL.SERVICE_URL}/${WsCode.user}`;
+        const result = await Request.post(
+            param,
+            DOMAIN
+        );
+        if(result) {
+            return true
+        }
+        return false
+    }
+
     @action
     async action_uploadImage(fileName: any, fileData: any) {
         const DOMAIN = `${CONFIG_URL.SERVICE_URL}/${WsCode.uploadImg}`;

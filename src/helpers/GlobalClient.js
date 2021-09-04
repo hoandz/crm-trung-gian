@@ -6,5 +6,8 @@ export const GLOBAL_CLIENT = {
     password: "password",
     rememberMe: "rememberMe",
     login: "login",
-    txtList: "txtList"
+    txtList: "txtList",
+    register: "register",
+    email: "email",
+    fullname: "fullname"
 };

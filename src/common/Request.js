@@ -5,11 +5,11 @@ import {
     ERROR_CODES,
     TIME_OUT_API,
 } from "../helpers/constants";
-import { showMessageError } from "../helpers/functions";
+import { showMessageError, showMessageSuccess } from "../helpers/functions";
 
 export const Request = {
     async header() {
-        let accessToken = "";
+        let token = "";
         let valueAsync;
 
         const rememberMe = await localStorage.getItem(
@@ -27,13 +27,13 @@ export const Request = {
         }
 
         if (valueAsync) {
-            accessToken = JSON.parse(valueAsync).accessToken;
+            token = JSON.parse(valueAsync).token;
         }
         return await axios.create({
             baseURL: CONFIG_URL.SERVICE_URL,
             headers: {
                 "Content-Type": "application/json",
-                "x-access-token": accessToken
+                "x-access-token": token
             },
         });
     },
@@ -52,6 +52,7 @@ export const Request = {
             });
 
             if (res.data.errorCode == ERROR_CODES.SUCCESS) {
+                showMessageSuccess(res.data.logs);
                 return res.data.wsResponse || true;
             } else if (res.data.errorCode == ERROR_CODES.UNAUTHORIZED) {
                 await localStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
@@ -76,14 +77,14 @@ export const Request = {
     async uploadFile(body, url) {
         try {
             let api = await this.header();
-            let accessToken = "";
+            let token = "";
 
             let valueAsync = await localStorage.getItem(
                 LOCAL_STORAGE.DATA_AUTH
             );
 
             if (valueAsync) {
-                accessToken = JSON.parse(valueAsync).accessToken;
+                token = JSON.parse(valueAsync).token;
             }
 
             const res = await api.post(url, body, {

@@ -6,5 +6,8 @@
   "password": "Passwprd",
   "rememberMe": "Lưu trình duyệt",
   "login": "Đăng nhập",
-  "txtList": "Danh sách"
+  "txtList": "Danh sách",
+  "register": "Đăng ký",
+  "email": "Email",
+  "fullname": "Fullname"
 }

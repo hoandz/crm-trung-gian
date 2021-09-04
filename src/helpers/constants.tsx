@@ -17,8 +17,8 @@ export const CONFIG_URL = {
 };
 
 export const ERROR_CODES = {
-    SUCCESS: 0,
-    REQUEST_FAILED: 1,
+    SUCCESS: 200,
+    REQUEST_FAILED: 0,
     UNAUTHORIZED: 401,
 };
 
