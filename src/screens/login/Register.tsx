@@ -18,26 +18,6 @@ const Register = observer((props: any) => {
     const { history } = props;
     const [form] = Form.useForm();
 
-    useEffect(() => {
-        handleSetDataDefault();
-    }, []);
-
-    const handleSetDataDefault = async () => {
-        const rememberMe = await localStorage.getItem(
-            LOCAL_STORAGE.REMEMBER_ME
-        );
-
-        if (rememberMe === "false") {
-            form.setFieldsValue({
-                rememberMe: false,
-            });
-        } else {
-            form.setFieldsValue({
-                rememberMe: true,
-            });
-        }
-    };
-
     const onFinishFailed = (errorInfo: any) => { };
 
     const onFinish = async (values: any) => {
@@ -47,6 +27,9 @@ const Register = observer((props: any) => {
 
         if (result) {
             setIsLoading(false);
+            form.resetFields();
+        }else{
+            form.resetFields();
         }
         setIsLoading(false);
     };
