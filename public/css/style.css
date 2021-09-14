@@ -29993,7 +29993,7 @@ h6,
 }
 .ant-layout.ant-layout-has-sider > .ant-layout {
   position: relative;
-  background: #f5f5f5;
+  background: none;
 }
 .framed-layout .ant-layout,
 .boxed-layout .ant-layout {
@@ -30747,6 +30747,10 @@ h6,
 .gx-layout-sider-dark {
   background-color: #003366;
   color: #038fdd;
+}
+.gx-layout-sider-header-top{
+  justify-content: space-between;
+  background: white;
 }
 .gx-layout-sider-header {
   padding: 10px 30px 10px 30px;
@@ -32169,7 +32173,7 @@ h6,
   color: #038fdd;
 }
 .ant-drawer-content-wrapper {
-  width: 280px !important;
+  width: 280px;
 }
 @media screen and (max-width: 991px) {
   .ant-drawer-content-wrapper {
@@ -32196,7 +32200,7 @@ h6,
   }
 }
 .ant-drawer-right .ant-drawer-content-wrapper {
-  width: 370px !important;
+  width: 370px;
   padding: 15px;
   background: #ffffff;
 }

@@ -1,14 +1,14 @@
 import { Button, Input, Form, Tabs } from "antd";
-import Checkbox from "antd/lib/checkbox/Checkbox";
+// import Checkbox from "antd/lib/checkbox/Checkbox";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LOCAL_STORAGE } from "../../helpers/constants";
+// import { LOCAL_STORAGE } from "../../helpers/constants";
 import { Loading } from "../../common";
-import Images from "../../common/Images";
+// import Images from "../../common/Images";
 import { GLOBAL_CLIENT } from "../../helpers/GlobalClient";
 import { useStore } from "../../hooks";
-import { AppleOutlined, AndroidOutlined } from '@ant-design/icons';
+// import { AppleOutlined, AndroidOutlined } from '@ant-design/icons';
 const { TabPane } = Tabs;
 
 const Register = observer((props: any) => {

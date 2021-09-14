@@ -1,4 +1,5 @@
 import axios from "axios";
+import { get } from "lodash";
 import {
     CONFIG_URL,
     LOCAL_STORAGE,
@@ -11,7 +12,7 @@ export const Request = {
     async header() {
         let token = "";
         let valueAsync;
-
+        
         const rememberMe = await localStorage.getItem(
             LOCAL_STORAGE.REMEMBER_ME
         );
@@ -38,6 +39,33 @@ export const Request = {
         });
     },
 
+    async get(url) {
+        try {
+            let api = await this.header();
+            const res = await api.get(url);
+
+            if (res.data.errorCode === ERROR_CODES.SUCCESS) {
+                return res.data.wsResponse || true;
+            } else if (res.data.errorCode === ERROR_CODES.UNAUTHORIZED) {
+                await localStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
+                showMessageError(res.data.logs);
+            } else {
+                showMessageError(res.data.logs);
+            }
+        } catch (error) {
+            if (error.message === "Network Error") {
+                showMessageError("Không có kết nối. Vui lòng thử lại");
+            } else if (error.message.indexOf("timeout of") != -1) {
+                await localStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
+                showMessageError(
+                    "Hệ thống đang nâng cấp. Vui lòng thử lại sau"
+                );
+            } else {
+                showMessageError(error.message);
+            }
+        }
+    },
+
     async post(body, url) {
         let json;
 
@@ -51,17 +79,17 @@ export const Request = {
                 timeout: TIME_OUT_API,
             });
 
-            if (res.data.errorCode == ERROR_CODES.SUCCESS) {
+            if (res.data.errorCode === ERROR_CODES.SUCCESS) {
                 showMessageSuccess(res.data.logs);
                 return res.data.wsResponse || true;
-            } else if (res.data.errorCode == ERROR_CODES.UNAUTHORIZED) {
+            } else if (res.data.errorCode === ERROR_CODES.UNAUTHORIZED) {
                 await localStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
                 showMessageError(res.data.logs);
             } else {
                 showMessageError(res.data.logs);
             }
         } catch (error) {
-            if (error.message == "Network Error") {
+            if (error.message === "Network Error") {
                 showMessageError("Không có kết nối. Vui lòng thử lại");
             } else if (error.message.indexOf("timeout of") != -1) {
                 await localStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
@@ -91,15 +119,15 @@ export const Request = {
                 timeout: TIME_OUT_API,
             });
 
-            if (res.data.errorCode == ERROR_CODES.SUCCESS) {
+            if (res.data.errorCode === ERROR_CODES.SUCCESS) {
                 return res.data.wsResponse;
             } else {
                 showMessageError(res.data.message);
             }
         } catch (error) {
-            if (error.message == "Network Error") {
+            if (error.message === "Network Error") {
                 showMessageError("Không có kết nối. Vui lòng thử lại");
-            } else if (error.message.indexOf("timeout of") != -1) {
+            } else if (error.message.indexOf("timeout of") !== -1) {
                 showMessageError("Không có kết nối. Vui lòng thử lại");
             } else {
                 showMessageError(error.message);

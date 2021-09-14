@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LOCAL_STORAGE } from "../../helpers/constants";
 import { Loading } from "../../common";
-import Images from "../../common/Images";
+// import Images from "../../common/Images";
 import { GLOBAL_CLIENT } from "../../helpers/GlobalClient";
 import { useStore } from "../../hooks";
 import { useHistory } from "react-router-dom";

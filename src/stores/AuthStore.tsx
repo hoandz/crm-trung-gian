@@ -6,12 +6,13 @@ import {
     STATUS_LOGIN,
 } from "../helpers/constants";
 import { WsCode } from "../helpers/Wscode";
+import {} from "../helpers/constants";
 
 export class AuthStore {
     @observable navCollapsed: boolean = false;
     @observable width_screen: number = window.innerWidth;
     @observable token: string = "";
-    @observable isLogin: number = STATUS_LOGIN.WAIT_LOGIN;
+    @observable isLogin: number = 0;
     @observable data_getUserInfo: any = {};
 
     @action
@@ -22,6 +23,18 @@ export class AuthStore {
     @action
     async action_closeSidebar() {
         this.navCollapsed = !this.navCollapsed;
+    }
+    @action
+    async action_getInfo() {
+        const DOMAIN = `${CONFIG_URL.SERVICE_URL}/user/${WsCode.me}`;
+        const result = await Request.get(
+            DOMAIN
+        );
+        if(result && result.users) {
+            this.data_getUserInfo = result.users;
+            this.isLogin = 1;
+        }
+        return result;
     }
 
     @action
@@ -64,8 +77,8 @@ export class AuthStore {
                 );
             }
 
-            this.isLogin = STATUS_LOGIN.ADMIN_LOGIN;
-            this.data_getUserInfo = result;
+            this.isLogin = 1;
+            this.action_getInfo();
 
             return true;
         }
@@ -109,7 +122,7 @@ export class AuthStore {
         await localStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
         await sessionStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
         this.data_getUserInfo = {};
-        this.isLogin = STATUS_LOGIN.NOT_LOGIN;
+        this.isLogin = 2;
 
         history.push("/signin");
     }

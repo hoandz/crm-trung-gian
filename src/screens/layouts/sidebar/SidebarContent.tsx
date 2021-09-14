@@ -6,10 +6,10 @@ import { GLOBAL_CLIENT } from "../../../helpers/GlobalClient";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../../hooks";
 import { Layout, Menu, Breadcrumb } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import { HomeOutlined, DollarOutlined, MergeCellsOutlined, UsergroupAddOutlined, UserOutlined } from '@ant-design/icons';
 
 const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+// const { Header, Content, Sider } = Layout;
 
 const SidebarContent = observer((props: any) => {
     const { location } = props;
@@ -30,14 +30,33 @@ const SidebarContent = observer((props: any) => {
             <>
                 <Menu.Item key="home">
                     <Link to="/home" onClick={handleCloseSideBar}>
-                        <i className="icon icon-card" />
+                        <HomeOutlined />
                         <span>{t(GLOBAL_CLIENT.home)}</span>
                     </Link>
                 </Menu.Item>
-                <Menu.Item key="nap-the">
-                    <Link to="/nap-the" onClick={handleCloseSideBar}>
-                        <i className="icon icon-card" />
-                        <span>{t(GLOBAL_CLIENT.home)}</span>
+                <Menu.Item key="kyc">
+                    <Link to="/kyc" onClick={handleCloseSideBar}>
+                        <MergeCellsOutlined />
+                        <span>Kyc Transaction</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="transaction-room">
+                    <Link to="/transaction-room" onClick={handleCloseSideBar}>
+                        <UsergroupAddOutlined />
+                        <span>Transaction Room</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="payout">
+                    <Link to="/payout" onClick={handleCloseSideBar}>
+                        <DollarOutlined />
+                        <span>Payout</span>
+                    </Link>
+                </Menu.Item>
+                
+                <Menu.Item key="profile">
+                    <Link to="/profile" onClick={handleCloseSideBar}>
+                        <UserOutlined />
+                        <span>Profile</span>
                     </Link>
                 </Menu.Item>
             </>

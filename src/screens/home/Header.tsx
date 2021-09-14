@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import {
-    Space,
     Col,
-    Row,
 } from "antd";
 import _ from "lodash";
 import { observer } from "mobx-react-lite";
-import { DownloadOutlined } from "@ant-design/icons";
-import { useStore } from "../../hooks";
-import { GLOBAL_CLIENT } from "../../helpers/GlobalClient";
+import { PlayCircleOutlined } from "@ant-design/icons";
+// import { useStore } from "../../hooks";
+// import { GLOBAL_CLIENT } from "../../helpers/GlobalClient";
 import { useTranslation } from "react-i18next";
-import { getDateTimeShow, showMessageSuccess } from "../../helpers/functions";
-import { Loading } from "../../common";
+// import { getDateTimeShow, showMessageSuccess } from "../../helpers/functions";
+// import { Loading } from "../../common";
 
 const Header = observer((props: any) => {
     const { t } = useTranslation();
@@ -21,24 +19,80 @@ const Header = observer((props: any) => {
             {/* <Loading isLoading={isLoading} /> */}
             {/* <h2 className="head-title">{t(GLOBAL_CLIENT.txtList)}</h2> */}
             {/* Show total member */}
-            <Col span={6}>
+            <Col xs={24} md={6}>
                 <div className="box-radius">
-                    step1
+                    <div className="item-header-member">
+                        <div className="number">
+                            <div className="text-capture font-weight-bold">
+                                Today's Money
+                            </div>
+                            <h3 className="text-number font-weight-bold mg-0">
+                                53,00%
+                            </h3>
+                        </div>
+                        <div className="text-end">
+                            <div className="icon bg-gradient-primary border-radius-md">
+                                <PlayCircleOutlined />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </Col>
-            <Col span={6}>
+            <Col xs={24} md={6}>
                 <div className="box-radius">
-                    step2
+                    <div className="item-header-member">
+                        <div className="number">
+                            <div className="text-capture font-weight-bold">
+                                Today's Money
+                            </div>
+                            <h3 className="text-number font-weight-bold mg-0">
+                                53,00%
+                            </h3>
+                        </div>
+                        <div className="text-end">
+                            <div className="icon bg-gradient-primary border-radius-md">
+                                <PlayCircleOutlined />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </Col>
-            <Col span={6}>
+            <Col xs={24} md={6}>
                 <div className="box-radius">
-                    step3
+                    <div className="item-header-member">
+                        <div className="number">
+                            <div className="text-capture font-weight-bold">
+                                Today's Money
+                            </div>
+                            <h3 className="text-number font-weight-bold mg-0">
+                                53,00%
+                            </h3>
+                        </div>
+                        <div className="text-end">
+                            <div className="icon bg-gradient-primary border-radius-md">
+                                <PlayCircleOutlined />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </Col>
-            <Col span={6}>
+            </Col> 
+            <Col xs={24} md={6}>
                 <div className="box-radius">
-                    step4
+                    <div className="item-header-member">
+                        <div className="number">
+                            <div className="text-capture font-weight-bold">
+                                Today's Money
+                            </div>
+                            <h3 className="text-number font-weight-bold mg-0">
+                                53,00%
+                            </h3>
+                        </div>
+                        <div className="text-end">
+                            <div className="icon bg-gradient-primary border-radius-md">
+                                <PlayCircleOutlined />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </Col>
         </>

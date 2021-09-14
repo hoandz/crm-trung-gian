@@ -13,6 +13,7 @@ import { LOCAL_STORAGE, STATUS_LOGIN } from "./helpers/constants";
 import { Loading } from "./common";
 import LayoutAdmin from "./screens/layouts/containers/LayoutAdmin";
 import AdminLoginScreen from "./screens/login/AdminLoginScreen";
+import { useHistory } from "react-router-dom";
 
 interface AdminRouteProps extends RouteProps {
     // tslint:disable-next-line:no-any
@@ -22,13 +23,31 @@ interface AdminRouteProps extends RouteProps {
 
 const App = observer((props) => {
     const AuthStore = useStore("AuthStore");
-
+    let history = useHistory();
+    
     useEffect(() => {
+        console.log("test");
         window.addEventListener("resize", () => {
             AuthStore.width_screen = window.innerWidth;
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        handle_fetchData();
+    }, []);
+    
+    const handle_fetchData = async () => {
+        let dataAuth;
+        dataAuth = await localStorage.getItem(LOCAL_STORAGE.DATA_AUTH);
+        console.log("dataAuth", dataAuth);
+        console.log("AuthStore.isLogin", AuthStore.isLogin);
+        if (dataAuth) {
+            await AuthStore.action_getInfo();
+        }else{
+            AuthStore.isLogin = STATUS_LOGIN.NOT_LOGIN;
+        }
+    };
 
     return (
         <>
@@ -51,7 +70,27 @@ const App = observer((props) => {
 
 const AdminRoute = (props: AdminRouteProps) => {
     const { component: Component, isSignedIn, ...rest } = props;
-    return <Component {...props} />;
+    return (
+        <Route
+            {...rest}
+            render={(routeProps) => {
+                if(isSignedIn === 0) {
+                    return <Loading isLoading={true} />;
+                }else if (isSignedIn === 1) {
+                    return <Component {...routeProps} />;
+                } else {
+                    return (
+                        <Redirect
+                            to={{
+                                pathname: "/signin",
+                                state: { from: routeProps.location },
+                            }}
+                        />
+                    );
+                }
+            }}
+        />
+    )
 };
 
 export default withRouter(App);
