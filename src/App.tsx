@@ -26,7 +26,6 @@ const App = observer((props) => {
     let history = useHistory();
     
     useEffect(() => {
-        console.log("test");
         window.addEventListener("resize", () => {
             AuthStore.width_screen = window.innerWidth;
         });
@@ -40,8 +39,6 @@ const App = observer((props) => {
     const handle_fetchData = async () => {
         let dataAuth;
         dataAuth = await localStorage.getItem(LOCAL_STORAGE.DATA_AUTH);
-        console.log("dataAuth", dataAuth);
-        console.log("AuthStore.isLogin", AuthStore.isLogin);
         if (dataAuth) {
             await AuthStore.action_getInfo();
         }else{

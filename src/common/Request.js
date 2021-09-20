@@ -30,38 +30,43 @@ export const Request = {
         if (valueAsync) {
             token = JSON.parse(valueAsync).token;
         }
-        return await axios.create({
+        return {
             baseURL: CONFIG_URL.SERVICE_URL,
             headers: {
                 "Content-Type": "application/json",
                 "x-access-token": token
             },
-        });
+        };
     },
 
     async get(url) {
         try {
-            let api = await this.header();
-            const res = await api.get(url);
-
+            let header = await this.header();
+            const res = await axios.get(url, header);
+            console.log("res", res);
             if (res.data.errorCode === ERROR_CODES.SUCCESS) {
                 return res.data.wsResponse || true;
             } else if (res.data.errorCode === ERROR_CODES.UNAUTHORIZED) {
                 await localStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
-                showMessageError(res.data.logs);
+                showMessageError(res.logs);
             } else {
-                showMessageError(res.data.logs);
+                await localStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
+                showMessageError(res.logs);
             }
         } catch (error) {
             if (error.message === "Network Error") {
                 showMessageError("Không có kết nối. Vui lòng thử lại");
+                return false;
             } else if (error.message.indexOf("timeout of") != -1) {
                 await localStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
                 showMessageError(
                     "Hệ thống đang nâng cấp. Vui lòng thử lại sau"
                 );
+                return false;
             } else {
+                await localStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
                 showMessageError(error.message);
+                return false;
             }
         }
     },
@@ -70,14 +75,12 @@ export const Request = {
         let json;
 
         try {
-            let api = await this.header();
+            let header = await this.header();
             json = {
                 wsRequest: { ...body },
             };
 
-            const res = await api.post(url, json, {
-                timeout: TIME_OUT_API,
-            });
+            const res = await axios.post(url, json, header);
 
             if (res.data.errorCode === ERROR_CODES.SUCCESS) {
                 showMessageSuccess(res.data.logs);
@@ -92,7 +95,6 @@ export const Request = {
             if (error.message === "Network Error") {
                 showMessageError("Không có kết nối. Vui lòng thử lại");
             } else if (error.message.indexOf("timeout of") != -1) {
-                await localStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
                 showMessageError(
                     "Hệ thống đang nâng cấp. Vui lòng thử lại sau"
                 );

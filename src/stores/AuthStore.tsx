@@ -33,6 +33,8 @@ export class AuthStore {
         if(result && result.users) {
             this.data_getUserInfo = result.users;
             this.isLogin = 1;
+        }else{
+            this.isLogin = 3;
         }
         return result;
     }

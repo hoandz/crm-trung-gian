@@ -98,6 +98,9 @@ body {
   z-index: 1;
   overflow: hidden;
 }
+.form-transaction{
+    flex-direction: row !important;
+}
 .cover::after {
   content: "";
   position: absolute;
