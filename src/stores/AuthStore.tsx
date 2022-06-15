@@ -6,7 +6,7 @@ import {
     STATUS_LOGIN,
 } from "../helpers/constants";
 import { WsCode } from "../helpers/Wscode";
-import {} from "../helpers/constants";
+import { } from "../helpers/constants";
 
 export class AuthStore {
     @observable navCollapsed: boolean = false;
@@ -26,67 +26,94 @@ export class AuthStore {
     }
     @action
     async action_getInfo() {
-        const DOMAIN = `${CONFIG_URL.SERVICE_URL}/user/${WsCode.me}`;
-        const result = await Request.get(
-            DOMAIN
+        const DOMAIN = `${CONFIG_URL.SERVICE_URL}/getInfoAccount`;
+        const json = {}
+        const result = await Request.post(
+            json,
+            DOMAIN,
+            "getInfoAccount"
         );
-        if(result && result.users) {
-            this.data_getUserInfo = result.users;
+        if (result) {
+            console.log(result);
+            this.data_getUserInfo = result;
             this.isLogin = 1;
-        }else{
+        } else {
             this.isLogin = 3;
         }
         return result;
     }
-
     @action
     async action_loginUser(
-        username: string,
-        password: string,
-        rememberMe: any
+        sdt: string,
+        matKhau: string
     ) {
-        const DOMAIN = `${CONFIG_URL.SERVICE_URL}/${WsCode.login}`;
+        const DOMAIN = `${CONFIG_URL.SERVICE_URL}/loginCms`;
 
         const json = {
-            username,
-            password,
+            sdt,
+            matKhau,
         };
 
         const result = await Request.post(
             json,
-            DOMAIN
+            DOMAIN,
+            "loginCms"
         );
 
         if (result) {
             const dataAuth = {
-                token: result.token
+                token: result.token,
+                session: result.session
             };
 
-            await localStorage.setItem(
-                LOCAL_STORAGE.REMEMBER_ME,
-                JSON.stringify(rememberMe)
+            await sessionStorage.setItem(
+                LOCAL_STORAGE.DATA_AUTH,
+                JSON.stringify(dataAuth)
             );
-
-            if (rememberMe === true) {
-                await localStorage.setItem(
-                    LOCAL_STORAGE.DATA_AUTH,
-                    JSON.stringify(dataAuth)
-                );
-            } else {
-                await sessionStorage.setItem(
-                    LOCAL_STORAGE.DATA_AUTH,
-                    JSON.stringify(dataAuth)
-                );
-            }
 
             this.isLogin = 1;
             this.action_getInfo();
-
             return true;
         }
 
         return false;
     }
+
+    @action
+    async action_getListKhoanVay(param: any) {
+        const DOMAIN = `${CONFIG_URL.SERVICE_URL}/getListKhoanVay`;
+        const result = await Request.post(
+            param,
+            DOMAIN,
+            "getListKhoanVay"
+        );
+        return result
+    }
+
+    @action
+    async action_getListAccount(param: any) {
+        const DOMAIN = `${CONFIG_URL.SERVICE_URL}/getListAccount`;
+        const result = await Request.post(
+            param,
+            DOMAIN,
+            "getListAccount"
+        );
+        return result
+    }
+
+    @action
+    async action_UpdateKhoanVay(param: any) {
+        const DOMAIN = `${CONFIG_URL.SERVICE_URL}/updateKhoanVay`;
+        const result = await Request.post(
+            param,
+            DOMAIN,
+            "updateKhoanVay"
+        );
+        return result
+    }
+
+
+    
 
     @action
     async action_RegisterUser(param: any) {
@@ -95,7 +122,7 @@ export class AuthStore {
             param,
             DOMAIN
         );
-        if(result) {
+        if (result) {
             return true
         }
         return false
@@ -120,13 +147,11 @@ export class AuthStore {
     }
 
     @action
-    async action_logout(history: any) {
+    async action_logout() {
         await localStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
         await sessionStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
         this.data_getUserInfo = {};
         this.isLogin = 2;
-
-        history.push("/signin");
     }
 
 }

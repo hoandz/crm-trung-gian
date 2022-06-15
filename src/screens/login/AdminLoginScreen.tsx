@@ -24,30 +24,11 @@ const AdminLoginScreen = observer((props: any) => {
         <div className="gx-app-login-wrap">
             <div className="container-login">
                 <div className="div-logo-login">
+                    
                 </div>
                 <div className="container-form">
-                    <Tabs defaultActiveKey="1" centered={true}>
-                        <TabPane
-                            tab={
-                                <span>
-                                    {t(GLOBAL_CLIENT.login)}
-                                </span>
-                            }
-                            key="1"
-                        >
-                            <Login />
-                        </TabPane>
-                        <TabPane
-                            tab={
-                                <span>
-                                    {t(GLOBAL_CLIENT.register)}
-                                </span>
-                            }
-                            key="2"
-                        >
-                            <Register />
-                        </TabPane>
-                    </Tabs>
+                    <h2 style={{textAlign: 'center'}}>Đăng nhập</h2>
+                    <Login />
                 </div>
             </div>
         </div>

@@ -43,8 +43,7 @@ const Login = observer((props: any) => {
 
         const result = await AuthStore.action_loginUser(
             values.username,
-            values.password,
-            values.rememberMe
+            values.password
         );
 
         if (result) {
@@ -89,9 +88,6 @@ const Login = observer((props: any) => {
                         type="password"
                         placeholder={t(GLOBAL_CLIENT.password)}
                     />
-                </Form.Item>
-                <Form.Item name="rememberMe" valuePropName="checked">
-                    <Checkbox>{t(GLOBAL_CLIENT.rememberMe)}</Checkbox>
                 </Form.Item>
                 <Form.Item>
                     <Button block type="primary" htmlType="submit">

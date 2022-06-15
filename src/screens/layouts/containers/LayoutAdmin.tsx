@@ -26,7 +26,7 @@ const LayoutAdmin = observer((props: any) => {
             okText: "Đồng ý",
             cancelText: "Hủy",
             async onOk() {
-                AuthStore.action_logout(history);
+                AuthStore.action_logout();
             },
         });
     };

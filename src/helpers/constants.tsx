@@ -13,11 +13,11 @@ export const STATUS_LOGIN = {
 };
 
 export const CONFIG_URL = {
-    SERVICE_URL: process.env.REACT_APP_API_ENDPOINT,
+    SERVICE_URL: "https://api.shinseicredit.com/api"
 };
 
 export const ERROR_CODES = {
-    SUCCESS: 200,
+    SUCCESS: "success",
     REQUEST_FAILED: 0,
     UNAUTHORIZED: 401,
 };

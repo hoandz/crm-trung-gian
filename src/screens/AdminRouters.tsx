@@ -2,7 +2,6 @@ import { Route, Switch } from "react-router-dom";
 import NotFoundPage from "./404/NotFoundPage";
 import DefaultScreen from "./default/DefaultScreen";
 import Home from "./home/Home";
-import Profile from "./profile/Profile";
 import kycAdvance from "./kyc/kycAdvance";
 import Transaction from "./transaction/Transaction";
 import TransactionRoom from "./transaction-room/TransactionRoom";
@@ -39,11 +38,6 @@ const AdminRouters = (props: any) => {
                 exact
                 path={`${props.match.url}payout`}
                 component={Payout}
-            />
-            <Route
-                exact
-                path={`${props.match.url}profile`}
-                component={Profile}
             />
             <Route path="*" component={NotFoundPage} />
         </Switch>

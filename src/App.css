@@ -41,6 +41,34 @@
     text-align: center;
     margin-top: 10px;
 }
+.pag-acn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.box-header-cdd {
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+.flex-input {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 75px !important;
+}
+.flex-input .ant-form-item-label {
+    text-align: left !important;
+    margin-bottom: 10px !important;
+}
+.mt-10 {
+    /* margin-top: 10px !important; */
+}
+.box-detail .ant-drawer-body {
+    overflow-x: hidden !important;
+}
+.w-full {
+    width: 100% !important;
+}
 @import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@600&display=swap");
 body {
   margin: 0;
@@ -181,7 +209,7 @@ body {
 }
 
 .img-logo {
-    width: 100px;
+    width: 55px;
     height: auto;
 }
 

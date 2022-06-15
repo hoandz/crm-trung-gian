@@ -23,8 +23,6 @@ const Home = observer((props: any) => {
             {/* Show total member */}
             <Row gutter={[24, 24]}>
                 <Header />
-                <Notification />
-                <Rank />
             </Row>
         </>
     );

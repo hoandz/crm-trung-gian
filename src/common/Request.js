@@ -12,7 +12,7 @@ export const Request = {
     async header() {
         let token = "";
         let valueAsync;
-        
+
         const rememberMe = await localStorage.getItem(
             LOCAL_STORAGE.REMEMBER_ME
         );
@@ -33,8 +33,7 @@ export const Request = {
         return {
             baseURL: CONFIG_URL.SERVICE_URL,
             headers: {
-                "Content-Type": "application/json",
-                "x-access-token": token
+                "Content-Type": "application/json"
             },
         };
     },
@@ -71,25 +70,38 @@ export const Request = {
         }
     },
 
-    async post(body, url) {
+    async post(body, url, wsCode) {
         let json;
 
         try {
             let header = await this.header();
+            let sessionId = "";
+            let token = "";
+            let valueAsync;
+            valueAsync = await sessionStorage.getItem(
+                LOCAL_STORAGE.DATA_AUTH
+            );
+            if (valueAsync) {
+                sessionId = JSON.parse(valueAsync).session;
+                token = JSON.parse(valueAsync).token;
+            }
             json = {
+                sessionId,
+                token,
+                wsCode,
                 wsRequest: { ...body },
             };
 
             const res = await axios.post(url, json, header);
-
             if (res.data.errorCode === ERROR_CODES.SUCCESS) {
-                showMessageSuccess(res.data.logs);
                 return res.data.wsResponse || true;
             } else if (res.data.errorCode === ERROR_CODES.UNAUTHORIZED) {
                 await localStorage.removeItem(LOCAL_STORAGE.DATA_AUTH);
-                showMessageError(res.data.logs);
+                showMessageError(res.data.message);
+                return false
             } else {
-                showMessageError(res.data.logs);
+                showMessageError(res.data.message);
+                return false
             }
         } catch (error) {
             if (error.message === "Network Error") {
