@@ -22,6 +22,7 @@ import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useStore } from "../../hooks";
+import { showMessageSuccess } from "../../helpers/functions";
 const { Option } = Select;
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -44,8 +45,19 @@ const TransactionRoom = observer((props: any) => {
         { value: 'Downing Street' },
         { value: 'Wall Street' },
     ];
-    const onFinish = () => {
-        message.success('Submit success!');
+    const onFinish = async (values: any) => {
+        const params = {
+            ...values,
+            "id": dataDetail.id,
+            "profileType": "THE_NGAN_HANG"
+        }
+        const result = await AuthStore.action_updateTaiKhoan(params)
+        if(result) {
+            showMessageSuccess("Cập nhật thành công");
+            onClose();
+            console.log(result);
+        }
+        
     };
 
     const onFinishFailed = () => {
@@ -56,6 +68,12 @@ const TransactionRoom = observer((props: any) => {
     }
     const enterLoading = (a: any) => {
         setDataDetail(a)
+        form.setFieldsValue({
+            tenChuThe: a.tenChuThe,
+            idChuThe: a.idChuThe,
+            nganHang: a.nganHang,
+            soTaiKhoan: a.soTaiKhoan
+        })
         setVisible(true);
     }
     useEffect(() => {
@@ -116,85 +134,14 @@ const TransactionRoom = observer((props: any) => {
             ),
         }
     ];
-    const data = [
-        {
-            key: '1',
-            stt: '1',
-            stk: '0123456789',
-            ht: "Nguyễn Văn A",
-            cccd: "012345678908",
-            kv: "10.000.000"
-        },
-        {
-            key: '2',
-            stt: "2",
-            stk: '0123456789',
-            ht: "Nguyễn Văn A",
-            cccd: "012345678908",
-            kv: "10.000.000"
-        },
-        {
-            key: '3',
-            stt: "3",
-            stk: '0123456789',
-            ht: "Nguyễn Văn A",
-            cccd: "012345678908",
-            kv: "10.000.000"
-        },
-        {
-            key: '3',
-            stt: "3",
-            stk: '0123456789',
-            ht: "Nguyễn Văn A",
-            cccd: "012345678908",
-            kv: "10.000.000"
-        },
-        {
-            key: '3',
-            stt: "3",
-            stk: '0123456789',
-            ht: "Nguyễn Văn A",
-            cccd: "012345678908",
-            kv: "10.000.000"
-        },
-        {
-            key: '3',
-            stt: "3",
-            stk: '0123456789',
-            ht: "Nguyễn Văn A",
-            cccd: "012345678908",
-            kv: "10.000.000"
-        },
-        {
-            key: '3',
-            stt: "3",
-            stk: '0123456789',
-            ht: "Nguyễn Văn A",
-            cccd: "012345678908",
-            kv: "10.000.000"
-        },
-        {
-            key: '3',
-            stt: "3",
-            stk: '0123456789',
-            ht: "Nguyễn Văn A",
-            cccd: "012345678908",
-            kv: "10.000.000"
-        },
-        {
-            key: '3',
-            stt: "3",
-            stk: '0123456789',
-            ht: "Nguyễn Văn A",
-            cccd: "012345678908",
-            kv: "10.000.000"
-        },
-    ];
     const onchangePage = (val: any) => {
         setPage(val - 1)
     }
     const onSearch = (value: any) => {
         setTextSearch(value)
+    }
+    const handleChange = (value: string) => {
+        console.log(`selected ${value}`);
     }
     return (
         <>
@@ -232,7 +179,7 @@ const TransactionRoom = observer((props: any) => {
                         </div>
                     </Panel>
                     <Panel header="Thông tin hồ sơ" key="2">
-                        <h3 style={{color: "#E2542B"}}>Cá nhân</h3>
+                        <h3 style={{ color: "#E2542B" }}>Cá nhân</h3>
                         <p><b>Trình độ học vấn: {dataDetail?.hocVan}</b></p>
                         <p><b>Thu nhập cá nhân: {dataDetail?.thuNhap}</b></p>
                         <p><b>Mục đích vay: {dataDetail?.mucDichVay}</b></p>
@@ -240,20 +187,80 @@ const TransactionRoom = observer((props: any) => {
                         <p><b>Có xe cộ không: {dataDetail?.xe}</b></p>
                         <p><b>Tiền lương hàng tháng: {dataDetail?.tienLuong}</b></p>
                         <p><b>Địa chỉ chi tiết: {dataDetail?.diaChi}</b></p>
-                        <h3 style={{color: "#E2542B"}}>Gia đình</h3>
+                        <h3 style={{ color: "#E2542B" }}>Gia đình</h3>
                         <p><b>Họ và tên: {dataDetail?.tenGd}</b></p>
                         <p><b>Số điện thoại: {dataDetail?.sdtGd}</b></p>
                         <p><b>Mối quan hệ: {dataDetail?.moiQuanHeGd}</b></p>
-                        <h3 style={{color: "#E2542B"}}>Khác</h3>
+                        <h3 style={{ color: "#E2542B" }}>Khác</h3>
                         <p><b>Họ và tên: {dataDetail?.tenKhac}</b></p>
                         <p><b>Số điện thoại: {dataDetail?.sdtKhac}</b></p>
                         <p><b>Mối quan hệ : {dataDetail?.moiQuanHeKhac}</b></p>
                     </Panel>
                     <Panel header="Thông tin thẻ ngân hàng" key="3">
-                        <p><b>Tên chủ thẻ: {dataDetail?.tenChuThe}</b></p>
-                        <p><b>Số ID chủ thẻ: {dataDetail?.idChuThe}</b></p>
-                        <p><b>Ngân hàng : {dataDetail?.nganHang}</b></p>
-                        <p><b>Số tài khoản ngân hàng : {dataDetail?.soTaiKhoan }</b></p>
+                        <Form
+                            form={form}
+                            name="basic"
+                            labelCol={{ span: 8 }}
+                            wrapperCol={{ span: 24 }}
+                            initialValues={{ remember: true }}
+                            onFinish={onFinish}
+                            onFinishFailed={onFinishFailed}
+                            autoComplete="off"
+                        >
+                            <Row>
+                                <Col span={24}>
+                                    <Form.Item
+                                        label="Tên chủ thẻ"
+                                        name="tenChuThe"
+                                        className="flex-input mt-10"
+                                    >
+                                        <Input className="w-full" />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col span={24}>
+                                    <Form.Item
+                                        label="Số ID chủ thẻ"
+                                        name="idChuThe"
+                                        className="flex-input mt-10"
+                                    >
+                                        <Input className="w-full" />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col span={24}>
+                                    <Form.Item
+                                        label="Ngân hàng"
+                                        name="nganHang"
+                                        className="flex-input mt-10"
+                                    >
+                                        <Input className="w-full" />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col span={24}>
+                                    <Form.Item
+                                        label="Số tài khoản ngân hàng"
+                                        name="soTaiKhoan"
+                                        className="flex-input mt-10"
+                                    >
+                                        <Input className="w-full" />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col span={24}>
+                                    <Form.Item className="flex-input mt-10">
+                                        <Button type="primary" htmlType="submit">
+                                            Cập nhật trạng thái
+                                        </Button>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Form>
                     </Panel>
                     <Panel header="Chữ ký viết tay" key="4">
                         <img src={dataDetail?.chuKy}></img>

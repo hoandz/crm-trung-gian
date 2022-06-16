@@ -35,6 +35,7 @@ const KycAdvance = observer((props: any) => {
     const onClose = () => {
         setVisible(false);
     };
+    const [dataUsers, setDataUsers] = useState<any>({})
     const enterLoading = (a: any) => {
         form.setFieldsValue({
             hoTen: a.hoTen,
@@ -45,6 +46,7 @@ const KycAdvance = observer((props: any) => {
             ngayTao: moment(a.ngayTao).format("DD/MM/YYYY"),
             status: a.status
         })
+        detail(a.accountId);
         setId(a.id)
         setVisible(true);
     }
@@ -58,13 +60,12 @@ const KycAdvance = observer((props: any) => {
     const getListKhoanVay = async () => {
         const params = {
             "textSearch": textSearch,
-            "status": "MOI",
+            "status": null,
             "pageSize": pageSize,
             "page": page
         }
         const result = await AuthStore.action_getListKhoanVay(params)
         if (result) {
-            console.log("getListKhoanVay", result);
             setListKhoanVay(result.data);
             setTotalPage(result.totalPage);
         }
@@ -127,23 +128,43 @@ const KycAdvance = observer((props: any) => {
             ),
         }
     ];
+    const detail = async (id: any) => {
+        const params = {
+            id: id
+        }
+        const result = await AuthStore.action_detailAccount(params)
+        if(result) {
+            setDataUsers(result)
+        }
+    }
     const onSearch = (value: any) => {
         setTextSearch(value)
     }
     const onFinish = async (values: any) => {
         const params = {
-            "soTien": values.soTien,
-            "thoiHan": values.thoiHan,
-            "status": values.status,
+            ...values,
             id: id
         }
+        delete params.sdt
+        delete params.hoTen
+        delete params.ngayTao
         const result = await AuthStore.action_UpdateKhoanVay(params);
-        if (result) {
+        const paramsTaiKhoan = {
+            "id": dataUsers?.id,
+            "profileType": "CA_NHAN",
+            "hoTen": dataUsers?.hoTen,
+            "soCmnd": values.soCmnd,
+            "cmndTruoc": dataUsers?.cmndTruoc,
+            "cmndSau": dataUsers?.cmndSau,
+            "anhCamCmnd": dataUsers?.anhCamCmnd
+        }
+        const result2 = await AuthStore.action_updateTaiKhoan(paramsTaiKhoan)
+        if (result && result2) {
             showMessageSuccess("Cập nhật thành công");
             getListKhoanVay();
             onClose()
         }
-        
+
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -226,7 +247,7 @@ const KycAdvance = observer((props: any) => {
                                 name="soCmnd"
                                 className="flex-input mt-10"
                             >
-                                <Input className="w-full" readOnly={true} />
+                                <Input className="w-full" />
                             </Form.Item>
                         </Col>
                     </Row>

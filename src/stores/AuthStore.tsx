@@ -102,6 +102,30 @@ export class AuthStore {
     }
 
     @action
+    async action_updateTaiKhoan(param: any) {
+        const DOMAIN = `${CONFIG_URL.SERVICE_URL}/updateAccount`;
+        const result = await Request.post(
+            param,
+            DOMAIN,
+            "updateAccount"
+        );
+        return result
+    }
+
+    @action
+    async action_detailAccount(param: any) {
+        const DOMAIN = `${CONFIG_URL.SERVICE_URL}/detailAccount`;
+        const result = await Request.post(
+            param,
+            DOMAIN,
+            "detailAccount"
+        );
+        return result
+    }
+
+    
+
+    @action
     async action_UpdateKhoanVay(param: any) {
         const DOMAIN = `${CONFIG_URL.SERVICE_URL}/updateKhoanVay`;
         const result = await Request.post(
@@ -111,9 +135,6 @@ export class AuthStore {
         );
         return result
     }
-
-
-    
 
     @action
     async action_RegisterUser(param: any) {
